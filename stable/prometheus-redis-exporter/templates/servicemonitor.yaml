@@ -1,0 +1,19 @@
+{{ if .Values.operator.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "prometheus-redis-exporter.fullname" . }}
+  namespace: {{ .Values.operator.serviceMonitor.namespace }}
+  labels:
+{{ toYaml .Values.operator.serviceMonitor.selector | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "prometheus-redis-exporter.name" . }}
+      release: {{ .Release.Name }}
+  endpoints:
+  - port: redis-exporter
+    interval: {{ .Values.operator.serviceMonitor.interval }}
+  namespaceSelector:
+    any: true
+{{ end }}

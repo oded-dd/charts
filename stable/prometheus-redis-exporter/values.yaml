@@ -26,3 +26,14 @@ annotations: {}
 #  prometheus.io/path: /metrics
 #  prometheus.io/port: "9121"
 #  prometheus.io/scrape: "true"
+
+operator:
+  # True if prometheus operator is used
+  enabled: false
+
+  serviceMonitor:
+    # Namespace Prometheus is installed in
+    namespace: monitoring
+    selector:
+      prometheus: kube-prometheus
+    interval: 10s
